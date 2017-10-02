@@ -5,17 +5,18 @@ namespace Spatie\Glide;
 use Illuminate\Support\Facades\Config;
 use Intervention\Image\ImageManager;
 use League\Glide\Api\Api;
-use League\Glide\Api\Manipulator\Blur;
-use League\Glide\Api\Manipulator\Brightness;
-use League\Glide\Api\Manipulator\Contrast;
-use League\Glide\Api\Manipulator\Filter;
-use League\Glide\Api\Manipulator\Gamma;
-use League\Glide\Api\Manipulator\Orientation;
-use League\Glide\Api\Manipulator\Output;
-use League\Glide\Api\Manipulator\Pixelate;
-use League\Glide\Api\Manipulator\Rectangle;
-use League\Glide\Api\Manipulator\Sharpen;
-use League\Glide\Api\Manipulator\Size;
+use League\Glide\Manipulators\Blur;
+use League\Glide\Manipulators\Brightness;
+use League\Glide\Manipulators\Contrast;
+use League\Glide\Manipulators\Filter;
+use League\Glide\Manipulators\Gamma;
+use League\Glide\Manipulators\Orientation;
+use League\Glide\Manipulators\Output;
+use League\Glide\Manipulators\Pixelate;
+use League\Glide\Manipulators\Rectangle;
+use League\Glide\Manipulators\Sharpen;
+use League\Glide\Manipulators\Size;
+use League\Glide\Manipulators\Watermark;
 
 class GlideApiFactory
 {
@@ -25,6 +26,11 @@ class GlideApiFactory
         $imageManager = new ImageManager([
             'driver' => self::getDriver()
         ]);
+
+        //Set watermark folder
+        $watermarks = new League\Flysystem\Filesystem(
+            new League\Flysystem\Adapter\Local(Config::get('laravel-glide.watermark'))
+        );
 
         // Set manipulators
         $manipulators = [
@@ -39,6 +45,7 @@ class GlideApiFactory
             new Blur(),
             new Pixelate(),
             new Output(),
+            new Watermark($watermarks),
         ];
 
         // Set API

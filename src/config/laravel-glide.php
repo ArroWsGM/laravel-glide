@@ -26,6 +26,14 @@ return [
     ],
 
     /*
+     * Glide will search for watermarks in this directory
+     *
+     */
+    'watermark' => [
+        'path' => storage_path('app/public'),
+    ],
+
+    /*
      * URLs to generated images will start with this string
      *
      */
