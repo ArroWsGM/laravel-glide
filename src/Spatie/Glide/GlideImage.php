@@ -3,8 +3,7 @@
 namespace Spatie\Glide;
 
 use Illuminate\Support\Facades\Config;
-use League\Glide\Http\UrlBuilderFactory;
-use Symfony\Component\HttpFoundation\Request;
+use League\Glide\Urls\UrlBuilderFactory;
 
 class GlideImage
 {
@@ -104,7 +103,7 @@ class GlideImage
     {
         $glideApi = GlideApiFactory::create();
 
-        $outputImageData = $glideApi->run(Request::create(null, null, $this->modificationParameters), $this->getPathToImage());
+        $outputImageData = $glideApi->run($this->getPathToImage(), $this->modificationParameters);
 
         file_put_contents($outputFile, $outputImageData);
 
